@@ -2,6 +2,7 @@
 
 namespace Valres\Market\command\subcommand;
 
+use onebone\economyapi\EconomyAPI;
 use pocketmine\command\CommandSender;
 use pocketmine\item\VanillaItems;
 use pocketmine\permission\DefaultPermissions;
@@ -11,10 +12,12 @@ use Valres\Market\libs\CortexPE\Commando\args\FloatArgument;
 use Valres\Market\libs\CortexPE\Commando\BaseSubCommand;
 use Valres\Market\libs\CortexPE\Commando\exception\ArgumentOrderException;
 use Valres\Market\Market;
+use Valres\Market\trait\PermissionsTrait;
 use Valres\Market\utils\Code;
 
 class SellSubCommand extends BaseSubCommand
 {
+    use PermissionsTrait;
     /**
      * @return void
      * @throws ArgumentOrderException
@@ -52,6 +55,19 @@ class SellSubCommand extends BaseSubCommand
             $sender->sendMessage($config->get("blacklist-item-message"));
             return;
         }
+
+        if(count($marketManager->sortMarketItems($sender->getName(), false)) >= $this->getMaxSlot($sender)){
+            $sender->sendMessage($config->get("max-item-reach-message"));
+            return;
+        }
+
+        $taxe = $this->getTaxe($sender);
+        if(EconomyAPI::getInstance()->myMoney($sender) < $taxe){
+            $sender->sendMessage($config->get("no-taxe-money-message"));
+            return;
+        }
+
+        EconomyAPI::getInstance()->reduceMoney($sender, $taxe);
 
         $id = Code::generate();
         $itemToSell->getNamedTag()->setShort("id", $id);

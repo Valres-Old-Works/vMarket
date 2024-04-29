@@ -5,23 +5,15 @@ namespace Valres\Market;
 use JsonException;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\SingletonTrait;
-use Valres\Market\libs\DaPigGuy\libPiggyEconomy\exceptions\MissingProviderDependencyException;
-use Valres\Market\libs\DaPigGuy\libPiggyEconomy\exceptions\UnknownProviderException;
-use Valres\Market\libs\DaPigGuy\libPiggyEconomy\libPiggyEconomy;
-use Valres\Market\libs\DaPigGuy\libPiggyEconomy\providers\EconomyProvider;
+use Valres\Market\libs\muqsit\invmenu\InvMenuHandler;
 use Valres\Market\manager\MarketManager;
 
 class Market extends PluginBase
 {
     public MarketManager $marketManager;
-    public EconomyProvider $economy;
 
     use SingletonTrait;
 
-    /**
-     * @throws UnknownProviderException
-     * @throws MissingProviderDependencyException
-     */
     protected function onEnable(): void
     {
         $this->getLogger()->info("by Valres est lancé !");
@@ -29,8 +21,10 @@ class Market extends PluginBase
         $this->saveDefaultConfig();
         $this->saveResource("data.yml");
 
-        libPiggyEconomy::init();
-        $this->economy = libPiggyEconomy::getProvider($this->getConfig()->get("economy"));
+        if(!InvMenuHandler::isRegistered()) InvMenuHandler::register($this);
+        if(is_null($this->getServer()->getPluginManager()->getPlugin("EconomyAPI"))){
+            $this->getLogger()->warning("EconomyAPI n'est pas sur le serveur, le plugin risque de ne pas fonctionnr correctement.");
+        }
     }
 
     protected function onLoad(): void
