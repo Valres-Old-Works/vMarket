@@ -66,8 +66,8 @@ class SellSubCommand extends BaseSubCommand
 
         if($config->get("new-item-message")["enabled"]){
             Server::getInstance()->broadcastMessage(str_replace(
-                ["{count}", "{item}", "{price}"],
-                [$itemToSell->getCount(), $itemToSell->getName(), $price],
+                ["{player}", "{count}", "{item}", "{price}"],
+                [$sender->getName(), $itemToSell->getCount(), $itemToSell->getName(), $price],
                 $config->get("new-item-message")["message"]
             ));
         }

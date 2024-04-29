@@ -6,14 +6,41 @@ not-numeric-message: "§cLe prix doit être un nombre."
 not-positif-message: "§cLe prix doit être positif."
 no-price-message: "§cVeuillez indiquez le prix."
 blacklist-item-message: "§cTu ne peux pas vendre cet item dans le market."
+not-existed-message: "§cIl semblerait que l'item n'existe plus."
+your-item-message: "§cTu ne peux pas acheter tes items."
 sell-item-message: "§aVous venez de mettre en vente x{count} {item} pour ${price} dans le market."
 new-item-message:
-  enabled: true
+  enabled: false
   message: "§aLe joueur {player} vient de mettre en vente x{count} {item} pour ${price} dans le market."
 
 # 86400 = 1 jour.
 expired-time: 86400
+lore-item-menu:
+  - " "
+  - "§r§fVendeur : {seller}"
+  - "§r§fPrix : ${price}"
+  - "§r§fExpire dans : {expired-time}"
 
 blacklist-items:
   - "diamond"
   - "dirt"
+
+expired-menu:
+  item: "ender_chest"
+  name: "§rMes items expirés"
+previous-page-menu:
+  item: "arrow"
+  name: "§rPage précédente ({page})"
+next-page-menu:
+  item: "arrow"
+  name: "§rPage suivante ({page})"
+my-item-menu:
+  item: "diamond"
+  name: "§rMes ventes"
+pick-all-menu:
+  item: "chest"
+  name: "§rTout récupérer"
+accept-purshase-menu:
+  name: "§r§aAccepter"
+decline-purshase-menu:
+  name: "§r§cRefuser"

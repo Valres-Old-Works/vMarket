@@ -89,6 +89,24 @@ class MarketManager
     }
 
     /**
+     * @param array $marketItem
+     * @param int $pageNumber
+     * @return MarketItem[]
+     */
+    public function getMarketSales(array $marketItem, int $pageNumber): array
+    {
+        $elementsPerPage = 43;
+        $totalItems = count($marketItem);
+
+        if($totalItems === 0 || $pageNumber < 0) return [];
+
+        $startIndex = $pageNumber * $elementsPerPage;
+        $endIndex = min(($pageNumber + 1) * $elementsPerPage, $totalItems);
+
+        return array_splice($marketItem, $startIndex, $endIndex - $startIndex);
+    }
+
+    /**
      * @return void
      */
     public function loadMarket(): void
