@@ -26,6 +26,7 @@ class MarketCommand extends BaseCommand
         $menu = InvMenu::create(InvMenuTypeIds::TYPE_DOUBLE_CHEST);
         $menu->setName("Market");
         ListingMenu::makeMenu($sender, $menu, 1);
+        $menu->setName(Market::getInstance()->getConfig()->get("menu-title"));
         $menu->send($sender);
     }
 }

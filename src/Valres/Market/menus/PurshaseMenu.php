@@ -22,10 +22,14 @@ class PurshaseMenu
         $config = Market::getInstance()->getConfig();
         $menu->getInventory()->clearAll();
 
-        $menu->getInventory()->setItem(0, VanillaBlocks::STAINED_GLASS_PANE()->setColor(DyeColor::GREEN)->asItem()->setCustomName($config->get("accept-purshase-menu")["name"]));
-        $menu->getInventory()->setItem(1, VanillaBlocks::STAINED_GLASS_PANE()->setColor(DyeColor::GREEN)->asItem()->setCustomName($config->get("accept-purshase-menu")["name"]));
-        $menu->getInventory()->setItem(3, VanillaBlocks::STAINED_GLASS_PANE()->setColor(DyeColor::RED)->asItem()->setCustomName($config->get("decline-purshase-menu")["name"]));
-        $menu->getInventory()->setItem(4, VanillaBlocks::STAINED_GLASS_PANE()->setColor(DyeColor::RED)->asItem()->setCustomName($config->get("decline-purshase-menu")["name"]));
+        $menu->getInventory()->setItem(9, VanillaBlocks::STAINED_GLASS_PANE()->setColor(DyeColor::GREEN)->asItem()->setCustomName($config->get("accept-purshase-menu")["name"]));
+        $menu->getInventory()->setItem(10, VanillaBlocks::STAINED_GLASS_PANE()->setColor(DyeColor::GREEN)->asItem()->setCustomName($config->get("accept-purshase-menu")["name"]));
+        $menu->getInventory()->setItem(11, VanillaBlocks::STAINED_GLASS_PANE()->setColor(DyeColor::GREEN)->asItem()->setCustomName($config->get("accept-purshase-menu")["name"]));
+        $menu->getInventory()->setItem(12, VanillaBlocks::STAINED_GLASS_PANE()->setColor(DyeColor::GREEN)->asItem()->setCustomName($config->get("accept-purshase-menu")["name"]));
+        $menu->getInventory()->setItem(14, VanillaBlocks::STAINED_GLASS_PANE()->setColor(DyeColor::RED)->asItem()->setCustomName($config->get("decline-purshase-menu")["name"]));
+        $menu->getInventory()->setItem(15, VanillaBlocks::STAINED_GLASS_PANE()->setColor(DyeColor::RED)->asItem()->setCustomName($config->get("decline-purshase-menu")["name"]));
+        $menu->getInventory()->setItem(16, VanillaBlocks::STAINED_GLASS_PANE()->setColor(DyeColor::RED)->asItem()->setCustomName($config->get("decline-purshase-menu")["name"]));
+        $menu->getInventory()->setItem(17, VanillaBlocks::STAINED_GLASS_PANE()->setColor(DyeColor::RED)->asItem()->setCustomName($config->get("decline-purshase-menu")["name"]));
 
         $item = $marketItem->getItem();
         $item->getNamedTag()->setShort("id", $marketItem->getId());
@@ -41,16 +45,18 @@ class PurshaseMenu
             );
         }
         $item->setLore($lore);
-        $menu->getInventory()->setItem(2, $item);
+        $menu->getInventory()->setItem(13, $item);
         $menu->setListener(InvMenu::readonly(function(DeterministicInvMenuTransaction $transaction) use ($marketManager, $menu, $config, $marketItem): void {
             $player = $transaction->getPlayer();
             $slot = $transaction->getAction()->getSlot();
 
             switch($slot){
-                case 0:
-                case 1:
+                case 9:
+                case 10:
+                case 11:
+                case 12:
+                    $player->removeCurrentWindow();
                     if(EconomyAPI::getInstance()->myMoney($player) < $marketItem->getPrice()){
-                        $menu->onClose($player);
                         $player->sendMessage($config->get("no-money-message"));
                         return;
                     }
@@ -71,8 +77,11 @@ class PurshaseMenu
                         $config->get("buy-item-message")
                     ));
                     break;
-                case 3:
-                case 4:
+                case 14:
+                case 15:
+                case 16:
+                case 17:
+                    $player->removeCurrentWindow();
                     $menu = InvMenu::create(InvMenuTypeIds::TYPE_DOUBLE_CHEST);
                     ListingMenu::makeMenu($player, $menu, 1);
                     $menu->send($player);

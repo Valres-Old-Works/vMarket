@@ -59,31 +59,39 @@ class ListingMenu
 
             switch($slot){
                 case 45:
-                    //Vente expirés
+                    $menu = InvMenu::create(InvMenuTypeIds::TYPE_DOUBLE_CHEST);
+                    ExpiredMenu::makeMenu($player, $menu);
+                    $menu->setName($config->get("menu-title"));
+                    $menu->send($player);
                     break;
                 case 48:
                     if($page <= 1) break;
 
                     $menu = InvMenu::create(InvMenuTypeIds::TYPE_DOUBLE_CHEST);
                     self::makeMenu($player, $menu, ($page - 1));
+                    $menu->setName($config->get("menu-title"));
                     $menu->send($player);
                     break;
                 case 50:
                     $menu = InvMenu::create(InvMenuTypeIds::TYPE_DOUBLE_CHEST);
                     if(count($marketManager->getMarketSales($marketManager->getAllMarketItems(false), ($page + 1))) >= 1){
                         self::makeMenu($player, $menu, ($page + 1));
+                        $menu->setName($config->get("menu-title"));
                         $menu->send($player);
                     }
                     break;
                 case 53:
-                    //Mes ventes
+                    $menu = InvMenu::create(InvMenuTypeIds::TYPE_DOUBLE_CHEST);
+                    MySellMenu::makeMenu($player, $menu);
+                    $menu->setName($config->get("menu-title"));
+                    $menu->send($player);
                     break;
                 default:
                     break;
             }
             if($slot >= 0 and $slot <= 35){
                 if(is_null($item->getNamedTag()->getTag("id"))){
-                    $menu->onClose($player);
+                    $player->removeCurrentWindow();
                     $player->sendMessage($config->get("not-existed-message"));
                     return;
                 }
@@ -101,8 +109,8 @@ class ListingMenu
                     return;
                 }
 
-                $menu->onClose($player);
-                $purshaseMenu = InvMenu::create(InvMenuTypeIds::TYPE_HOPPER);
+                $player->removeCurrentWindow();
+                $purshaseMenu = InvMenu::create(InvMenuTypeIds::TYPE_CHEST);
                 $purshaseMenu->setName("Valider l'achat :");
                 PurshaseMenu::makeMenu($player, $purshaseMenu, $marketSale);
                 $purshaseMenu->send($player);

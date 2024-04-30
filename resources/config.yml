@@ -1,16 +1,14 @@
-economy:
-# choix entre : "economyapi" ou "bedrockeconomy".
-  provider: "economyapi"
-
 not-numeric-message: "§cLe prix doit être un nombre."
 not-positif-message: "§cLe prix doit être positif."
 no-price-message: "§cVeuillez indiquez le prix."
 max-item-reach-message: "§cTu n'as plus de slot disponible dans le market."
-no-taxe-money-message: "§cTu n'as pas assez de sous pour payer la taxe de {taxe}% soit ${amount}."
+no-taxe-money-message: "§cTu n'as pas assez d'argent pour payer la taxe."
 blacklist-item-message: "§cTu ne peux pas vendre cet item dans le market."
 not-existed-message: "§cIl semblerait que l'item n'existe plus."
 no-money-message: "§cTu n'as pas assez d'argent pour acheter cet item."
 your-item-message: "§cTu ne peux pas acheter tes items."
+pick-all-items-message: "§aTu viens de récupérer touts tes items."
+no-pick-up-item-message: "§cTu n'as aucuns items à récupérer."
 buy-item-message: "§aVous venez d'acheter x{count} {item} pour ${price}."
 buying-item-message: "§aUn joueur vient de vous acheter un item dans le market."
 sell-item-message: "§aVous venez de mettre en vente x{count} {item} pour ${price} dans le market."
@@ -30,6 +28,7 @@ blacklist-items:
   - "diamond"
   - "dirt"
 
+menu-title: "Market"
 expired-menu:
   item: "ender_chest"
   name: "§rMes items expirés"
@@ -45,6 +44,9 @@ my-item-menu:
 pick-all-menu:
   item: "chest"
   name: "§rTout récupérer"
+back-menu:
+  item: "barrier"
+  name: "§r§cRetour"
 accept-purshase-menu:
   name: "§r§aAccepter"
 decline-purshase-menu:

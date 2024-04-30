@@ -9,9 +9,10 @@ trait PermissionsTrait
 {
     /**
      * @param Player $player
+     * @param int $price
      * @return int
      */
-    public function getTaxe(Player $player): int
+    public function getTaxe(Player $player, int $price): int
     {
         $permissions = Market::getInstance()->getConfig();
         $defaultTaxe = $permissions->get("permissions")["default"]["taxe"];
@@ -23,7 +24,7 @@ trait PermissionsTrait
                 break;
             }
         }
-        return $taxe;
+        return (($taxe === 0) ? 0 : intval(($taxe * $price) / 100));
     }
 
 
@@ -34,7 +35,7 @@ trait PermissionsTrait
     public function getMaxSlot(Player $player): int
     {
         $permissions = Market::getInstance()->getConfig();
-        $defaultMaxItem = $permissions->get("permissions")["default"]["max-item"];
+        $defaultMaxItem = $permissions->get("permissions")["default"]["max-items"];
         $maxItem = $defaultMaxItem;
 
         foreach($permissions->get("permissions") as $permission => $data){

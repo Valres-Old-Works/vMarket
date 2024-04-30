@@ -61,7 +61,7 @@ class SellSubCommand extends BaseSubCommand
             return;
         }
 
-        $taxe = $this->getTaxe($sender);
+        $taxe = $this->getTaxe($sender, $price);
         if(EconomyAPI::getInstance()->myMoney($sender) < $taxe){
             $sender->sendMessage($config->get("no-taxe-money-message"));
             return;
